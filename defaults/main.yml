@@ -1,0 +1,25 @@
+---
+# This directory contains defaults for variables used in this role
+
+# git url for repository containing syntax highlighting files
+nano_syntax_repo: 'https://github.com/scopatz/nanorc.git'
+
+# set options for nanorc file, a default set is the following
+nano_rcoptions:
+  - set autoindent
+  - set mouse
+  #- set linenumbers
+  - set quickblank
+  - set smarthome
+  - set smooth
+  - set tabsize 2
+  - set tabstospaces
+
+# or leave them blank:
+#nano_rcoptions: []
+
+# set your complete path for nanorc on remote machine file if needed:
+#nano_rcfile_custom: '~/.nanorc'
+
+# set whether system-wide nanorc file or user profile located file should be used
+nano_rc_systemwide: false

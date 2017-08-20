@@ -1,0 +1,19 @@
+---
+# set default Variables
+
+# packages to install for nano
+nano_packages:
+  - nano
+  - git
+
+# default folder for syntax highlighting files
+nano_dir_rcsyntax: '~/.nano/nano-syntax-highlighting'
+
+# default folder for syntax highlighting files
+nano_dir_rcsyntax_user: '~/.nano/nano-syntax-highlighting'
+
+# file nano rc (systemwide or per user)
+nano_rcfile: '~/.nanorc'
+
+# file nano rc (systemwide or per user)
+nano_rcfile_user: '~/.nanorc'

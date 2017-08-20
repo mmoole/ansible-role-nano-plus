@@ -1,0 +1,72 @@
+---
+
+# include os specific install variables
+- name: Gather OS Specific Variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../vars/{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml"
+    - "../vars/{{ ansible_distribution }}.yml"
+    - "../vars/{{ ansible_os_family }}.yml"
+    - "../vars/defaults.yml"
+
+- name: Set user path for syntax highlighting if set so
+  set_fact:
+    nano_dir_rcsyntax: "{{ nano_dir_rcsyntax_user }}"
+  when: nano_rc_systemwide == false
+
+- name: Set user path for nanorc if set so
+  set_fact:
+    nano_rcfile: "{{ nano_rcfile_user }}"
+  when: nano_rc_systemwide == false
+
+- name: Set custom nanorc path if set so
+  set_fact:
+    nano_rcfile: "{{ nano_rcfile_custom }}"
+  when: nano_rcfile_custom is defined
+
+# only install nano on platforms where it is not there by default
+- name: install packages for nano
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ nano_packages }}"
+  when:
+    - ("xxx" or "YYY" ) not in ansible_os_family
+
+- name: "git clone syntax highlighting files from {{ nano_syntax_repo }}"
+  git:
+    depth: 1
+    dest: "{{ nano_dir_rcsyntax }}"
+    repo: "{{ nano_syntax_repo }}"
+    force: yes
+  register: git_syntaxhl
+
+- name: find a list of all syntax highlighting files
+  find:
+    paths: "{{ nano_dir_rcsyntax }}"
+    patterns: '*.nanorc'
+  register: nano_syntax_files
+
+- name: add syntax highlighting to nanorc
+  lineinfile:
+    path: "{{ nano_rcfile }}"
+    create: yes
+    line: "include \"{{ item.path }}\""
+  with_items: "{{ nano_syntax_files.files }}"
+
+# this works not for older versions
+#- name: add syntax highlighting to nanorc
+#  lineinfile:
+#    path: "{{ nano_rcfile }}"
+#    create: yes
+#    line: "include \"{{ nano_dir_rcsyntax }}/*.nanorc\""
+
+- name: add options to nanorc
+  lineinfile:
+    path: "{{ nano_rcfile }}"
+    create: yes
+    line: "{{ item }}"
+    state: present
+    regexp: "^(#?)+(\\s?)+{{ item }}"
+  with_items: "{{ nano_rcoptions }}"
+  when: nano_rcoptions is defined
