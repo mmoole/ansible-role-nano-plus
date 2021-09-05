@@ -9,6 +9,12 @@
     - "../vars/{{ ansible_os_family }}.yml"
     - "../vars/defaults.yml"
 
+- name: check if git is installed and usable on the system
+  shell: git --version
+  register: gitbin
+  failed_when: "'git version' not in gitbin.stdout"
+  changed_when: false
+
 - name: Set user path for syntax highlighting if set so
   set_fact:
     nano_dir_rcsyntax: "{{ nano_dir_rcsyntax_user }}"
@@ -39,6 +45,7 @@
     dest: "{{ nano_dir_rcsyntax }}"
     repo: "{{ nano_syntax_repo }}"
     force: yes
+    version: "{{ nano_syntax_repo_ver }}"
   register: git_syntaxhl
 
 - name: find a list of all syntax highlighting files

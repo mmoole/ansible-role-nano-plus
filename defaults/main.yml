@@ -4,6 +4,10 @@
 # git url for repository containing syntax highlighting files
 nano_syntax_repo: 'https://github.com/scopatz/nanorc.git'
 
+# version of repository: can be a tree, tag or specific commit
+nano_syntax_repo_ver: 'HEAD'
+# nano_syntax_repo_ver: 'v2.9'
+
 # set options for nanorc file, a default set is the following
 nano_rcoptions:
   - set autoindent

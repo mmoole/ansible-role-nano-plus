@@ -4,7 +4,7 @@
 # packages to install for nano
 nano_packages:
   - nano
-  - git
+  # - git
 
 # default folder for syntax highlighting files
 nano_dir_rcsyntax: '~/.nano/nano-syntax-highlighting'

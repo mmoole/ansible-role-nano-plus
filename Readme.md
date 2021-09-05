@@ -6,7 +6,8 @@ Ansible role for installing nano with syntax highlighting and custom options.
 Requirements
 ------------
 
-nano should be available in your package management system.
+nano should be available in your package management system. Some version of git must be available in path in order to clone the repository containing the files for syntax-highlighting.
+You can use a version specific tag of the source repository to adapt if an older version of nano is installed on the host.
 
 Role Variables
 --------------
@@ -16,6 +17,10 @@ Variables with examples:
 ```yml
 # git url for repository containing syntax highlighting files
 nano_syntax_repo: 'https://github.com/scopatz/nanorc.git'
+
+# version of repository: can be a tree, tag or specific commit
+nano_syntax_repo_ver: 'HEAD'
+# nano_syntax_repo_ver: 'v2.9'
 
 # set options for nanorc file, a default set is the following
 nano_rcoptions:
